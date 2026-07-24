@@ -11,6 +11,8 @@ Host Nginx reverse-proxies public traffic to a Docker Compose app bound only on 
 
 ## First deployment
 
+With a domain and SSL:
+
 ```bash
 sudo -i
 git clone https://github.com/MikeMin32/floorexpert.git /tmp/floorexpert-bootstrap
@@ -21,6 +23,18 @@ LETSENCRYPT_EMAIL="admin@example.com" \
 ./deploy/install.sh
 ```
 
+Without a domain (HTTP on the server IP via Nginx `default_server`):
+
+```bash
+sudo -i
+git clone https://github.com/MikeMin32/floorexpert.git /tmp/floorexpert-bootstrap
+cd /tmp/floorexpert-bootstrap
+chmod +x deploy/*.sh
+./deploy/install.sh
+```
+
+`DOMAIN` is optional. If unset, Nginx is configured as `default_server` with `server_name _`, Certbot is skipped, and install finishes successfully.
+
 `install.sh` will:
 
 1. Install system packages (Nginx, UFW, Fail2Ban, Certbot, Docker from Docker’s official apt repo)
@@ -29,7 +43,7 @@ LETSENCRYPT_EMAIL="admin@example.com" \
 4. Stop and ask you to fill Telegram values if they are empty
 5. Build and start the Compose stack
 6. Configure UFW (OpenSSH + Nginx Full only; port 3000 stays local)
-7. Configure Nginx and optionally Let’s Encrypt
+7. Configure Nginx (named host or default_server) and optionally Let’s Encrypt when `DOMAIN` + `LETSENCRYPT_EMAIL` are set
 
 ### Environment setup
 
@@ -131,8 +145,8 @@ sudo /opt/floorexpert/deploy/status.sh
 | `APP_DIR` | `/opt/floorexpert` |
 | `BRANCH` | `main` |
 | `APP_PORT` | `3000` |
-| `DOMAIN` | interactive prompt if unset |
-| `LETSENCRYPT_EMAIL` | unset (HTTP only) |
+| `DOMAIN` | unset (Nginx `default_server` / `server_name _`) |
+| `LETSENCRYPT_EMAIL` | unset (HTTP only; Certbot only when `DOMAIN` is set) |
 
 ## Troubleshooting
 

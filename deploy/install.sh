@@ -244,16 +244,6 @@ configure_ufw() {
   log "UFW enabled"
 }
 
-prompt_for_domain() {
-  if [[ -n "${DOMAIN}" ]]; then
-    return 0
-  fi
-
-  local input
-  read -r -p "Enter domain(s) for Nginx (e.g. example.com or \"example.com www.example.com\"): " input
-  DOMAIN="${input}"
-}
-
 validate_domains() {
   local raw="$1"
   local domain
@@ -278,16 +268,8 @@ primary_domain() {
   printf '%s' "${domains[0]}"
 }
 
-write_nginx_config() {
-  local server_names="${DOMAIN}"
-  log "Writing Nginx site config to ${NGINX_SITE_AVAILABLE}"
-
-  cat > "${NGINX_SITE_AVAILABLE}" <<EOF
-server {
-    listen 80;
-    listen [::]:80;
-    server_name ${server_names};
-
+write_nginx_common_body() {
+  cat <<EOF
     client_max_body_size 2m;
 
     gzip on;
@@ -323,8 +305,39 @@ server {
         proxy_send_timeout 60s;
         proxy_read_timeout 60s;
     }
-}
 EOF
+}
+
+write_nginx_config() {
+  log "Writing Nginx site config to ${NGINX_SITE_AVAILABLE}"
+
+  if [[ -z "${DOMAIN}" ]]; then
+    log "DOMAIN not set — configuring Nginx as default_server (server_name _)"
+    {
+      cat <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+
+EOF
+      write_nginx_common_body
+      printf '}\n'
+    } > "${NGINX_SITE_AVAILABLE}"
+  else
+    local server_names="${DOMAIN}"
+    {
+      cat <<EOF
+server {
+    listen 80;
+    listen [::]:80;
+    server_name ${server_names};
+
+EOF
+      write_nginx_common_body
+      printf '}\n'
+    } > "${NGINX_SITE_AVAILABLE}"
+  fi
 
   # Ensure connection_upgrade map exists (idempotent)
   # Intentional literal $ in patterns (not shell expansion)
@@ -370,6 +383,11 @@ configure_ssl_if_requested() {
   local domain
   local certbot_args=()
 
+  if [[ -z "${DOMAIN}" ]]; then
+    log "DOMAIN not set — skipping Certbot (HTTP default_server only)"
+    return 0
+  fi
+
   if [[ -z "${LETSENCRYPT_EMAIL}" ]]; then
     warn "LETSENCRYPT_EMAIL not set — leaving HTTP only"
     # shellcheck disable=SC2206
@@ -412,7 +430,7 @@ configure_ssl_if_requested() {
 
 ssl_status() {
   if [[ -z "${DOMAIN}" ]]; then
-    printf 'not configured'
+    printf 'HTTP only (default_server, no domain)'
     return 0
   fi
   local primary
@@ -467,8 +485,11 @@ main() {
   start_application
   configure_ufw
 
-  prompt_for_domain
-  validate_domains "${DOMAIN}"
+  if [[ -n "${DOMAIN}" ]]; then
+    validate_domains "${DOMAIN}"
+  else
+    log "DOMAIN not set — Nginx will use default_server (no interactive prompt)"
+  fi
   write_nginx_config
   configure_ssl_if_requested
   print_summary
