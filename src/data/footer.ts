@@ -10,7 +10,8 @@ export const FOOTER_SERVICE_LINKS: NavLink[] = [
 
 export const FOOTER_COMPANY_LINKS: NavLink[] = [
   { label: "Про нас", href: "#features" },
-  { label: "Наші роботи", href: "#process" },
+  { label: "Наші роботи", href: "#works" },
+  { label: "Як ми працюємо", href: "#process" },
   { label: "Переваги", href: "#features" },
   { label: "Контакти", href: "#contact" },
 ];

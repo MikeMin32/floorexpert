@@ -4,6 +4,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Services } from "@/components/sections/Services";
 import { CostCalculator } from "@/components/sections/CostCalculator";
 import { Materials } from "@/components/sections/Materials";
+import { ProjectsGallery } from "@/components/sections/ProjectsGallery";
 import { WorkProcess } from "@/components/sections/WorkProcess";
 import { Features } from "@/components/sections/Features";
 import { ContactSection } from "@/components/sections/ContactSection";
@@ -19,6 +20,7 @@ export default function Home() {
         <CalculatorProvider>
           <CostCalculator />
           <Materials />
+          <ProjectsGallery />
           <WorkProcess />
           <Features />
           <ContactSection />

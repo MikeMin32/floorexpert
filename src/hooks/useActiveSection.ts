@@ -10,12 +10,18 @@ function readHeaderOffset(): number {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 78;
 }
 
+/** Extra distance (px) into the section so the title lands under the header. */
+const SECTION_SCROLL_INSET: Record<string, number> = {
+  works: 88,
+};
+
 function getTargetScrollY(sectionId: string): number {
   const el = document.getElementById(sectionId);
   if (!el) return window.scrollY;
 
   const headerOffset = readHeaderOffset();
-  const documentTop = el.getBoundingClientRect().top + window.scrollY;
+  const inset = SECTION_SCROLL_INSET[sectionId] ?? 0;
+  const documentTop = el.getBoundingClientRect().top + window.scrollY + inset;
   const maxScroll = Math.max(
     0,
     document.documentElement.scrollHeight - window.innerHeight,

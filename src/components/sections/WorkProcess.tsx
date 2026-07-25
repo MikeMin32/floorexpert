@@ -4,7 +4,7 @@ import { PROCESS_STEPS } from "@/data/process";
 
 export function WorkProcess() {
   return (
-    <section id="process" className="bg-cream pt-20 pb-20 sm:pt-24 sm:pb-28">
+    <section id="process" className="bg-cream pt-20 pb-10 sm:pt-24 sm:pb-14">
       <Container className="flex flex-col gap-10">
         <h2 className="text-xs font-semibold uppercase tracking-[0.22em] text-ink/70">
           Як ми працюємо

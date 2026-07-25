@@ -54,11 +54,11 @@ export function Materials() {
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-4 lg:h-full lg:min-h-0 lg:gap-[1.1rem]">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 lg:h-full lg:min-h-0 lg:gap-[1.1rem]">
             {MATERIAL_CARDS.map((card) => (
               <article
                 key={card.label}
-                className="relative aspect-[4/5] overflow-hidden rounded-[18px] lg:aspect-auto lg:h-full lg:min-h-0"
+                className="relative aspect-[16/10] overflow-hidden rounded-[18px] sm:aspect-[4/5] lg:aspect-auto lg:h-full lg:min-h-0"
               >
                 <Image
                   src={card.imageSrc}

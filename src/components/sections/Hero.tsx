@@ -73,7 +73,7 @@ export function Hero() {
               Розрахувати вартість
             </a>
             <a
-              href="#process"
+              href="#works"
               className="flex h-12 w-full items-center justify-center rounded-md border border-ink/15 bg-white/60 text-sm font-semibold text-ink transition-colors hover:bg-white sm:w-[150px]"
             >
               Наші роботи
