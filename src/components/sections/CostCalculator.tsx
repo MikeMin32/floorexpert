@@ -24,7 +24,16 @@ export function CostCalculator() {
           <div className="rounded-2xl bg-ink p-6 sm:p-8">
             <div className="hidden grid-cols-[24px_minmax(0,1fr)_88px_128px_112px_120px] gap-4 border-b border-cream/10 pb-4 text-xs font-semibold uppercase tracking-wide text-cream-dark/50 lg:grid">
               {TABLE_HEADERS.map((header, index) => (
-                <span key={`${header}-${index}`} className={index === 3 || index === 5 ? "text-center" : ""}>
+                <span
+                  key={`${header}-${index}`}
+                  className={
+                    index === 2 || index === 3 || index === 4
+                      ? "text-center"
+                      : index === 5
+                        ? "text-right"
+                        : ""
+                  }
+                >
                   {header}
                 </span>
               ))}

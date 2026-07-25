@@ -37,7 +37,7 @@ export const CALCULATOR_SERVICES: CalculatorService[] = [
     id: "baseboard-plastic",
     name: "Плінтус пластиковий",
     unit: "m",
-    price: 90,
+    price: 99,
     defaultQuantity: 0,
     defaultChecked: false,
   },
@@ -45,7 +45,7 @@ export const CALCULATOR_SERVICES: CalculatorService[] = [
     id: "preparation",
     name: "Підготовка основи (грунтування)",
     unit: "m2",
-    price: 30,
+    price: 39,
     defaultQuantity: 0,
     defaultChecked: false,
   },
@@ -53,7 +53,7 @@ export const CALCULATOR_SERVICES: CalculatorService[] = [
     id: "removal",
     name: "Демонтаж старого покриття",
     unit: "m2",
-    price: 40,
+    price: 49,
     defaultQuantity: 0,
     defaultChecked: false,
   },
@@ -77,21 +77,21 @@ export const SERVICE_CARDS: ServiceCard[] = [
   {
     icon: "ruler",
     title: "Встановлення плінтуса",
-    priceLabel: "від 90 грн/п.м.",
+    priceLabel: "від 99 грн/п.м.",
     description:
       "МДФ, алюмінієвий та пластиковий плінтус з акуратними внутрішніми та зовнішніми кутами.",
   },
   {
     icon: "roller",
     title: "Підготовка основи",
-    priceLabel: "від 30 грн/м²",
+    priceLabel: "від 39 грн/м²",
     description:
       "Вирівнювання, грунтування та шумоізоляція основи для рівної та довговічної підлоги.",
   },
   {
     icon: "wasteBag",
     title: "Демонтаж покриття",
-    priceLabel: "від 40 грн/м²",
+    priceLabel: "від 49 грн/м²",
     description:
       "Швидке та чисте видалення старого покриття з вивезенням будівельного сміття.",
   },

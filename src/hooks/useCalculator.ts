@@ -42,10 +42,17 @@ export function useCalculator() {
   }, []);
 
   const updateQuantity = useCallback((id: string, value: number) => {
+    const quantity = clamp(value, MAX_QUANTITY);
     setRows((current) =>
-      current.map((row) =>
-        row.id === id ? { ...row, quantity: clamp(value, MAX_QUANTITY) } : row,
-      ),
+      current.map((row) => {
+        if (row.id !== id) return row;
+        return {
+          ...row,
+          quantity,
+          // Typing a quantity activates the service immediately.
+          checked: quantity > 0 ? true : row.checked,
+        };
+      }),
     );
   }, []);
 

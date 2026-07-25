@@ -6,6 +6,12 @@ export const UNIT_LABELS: Record<ServiceUnit, string> = {
   m: "п.м.",
 };
 
+/** Floor coverings on different surfaces — their areas are summed. */
+const COVERING_SERVICE_IDS = new Set(["laminate", "vinyl"]);
+
+/** Prep/demolition share the same floor as coverings — do not add on top. */
+const SHARED_AREA_SERVICE_IDS = new Set(["preparation", "removal"]);
+
 export interface CalculatorRowInput {
   id: string;
   name: string;
@@ -25,7 +31,8 @@ export interface CalculatorTotals {
 export function buildLeadCalculations(rows: CalculatorRowInput[]): LeadCalculations {
   const items: LeadCalculationItem[] = [];
   let totalCost = 0;
-  let totalArea = 0;
+  let coveringArea = 0;
+  let sharedArea = 0;
   let totalLinearLength = 0;
 
   for (const row of rows) {
@@ -42,13 +49,26 @@ export function buildLeadCalculations(rows: CalculatorRowInput[]): LeadCalculati
     });
 
     totalCost += subtotal;
-    // Area services (laying, prep, demolition) share the same floor space —
-    // report the largest selected m² quantity, not the sum.
-    if (row.unit === "m2") totalArea = Math.max(totalArea, row.quantity);
+
+    if (row.unit === "m2") {
+      if (COVERING_SERVICE_IDS.has(row.id)) {
+        coveringArea += row.quantity;
+      } else if (SHARED_AREA_SERVICE_IDS.has(row.id)) {
+        sharedArea = Math.max(sharedArea, row.quantity);
+      } else {
+        coveringArea += row.quantity;
+      }
+    }
+
     if (row.unit === "m") totalLinearLength += row.quantity;
   }
 
-  return { items, totalCost, totalArea, totalLinearLength };
+  return {
+    items,
+    totalCost,
+    totalArea: Math.max(coveringArea, sharedArea),
+    totalLinearLength,
+  };
 }
 
 export function toCalculatorTotals(calculations: LeadCalculations): CalculatorTotals {
