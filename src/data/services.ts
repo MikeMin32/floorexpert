@@ -6,8 +6,8 @@ export const CALCULATOR_SERVICES: CalculatorService[] = [
     name: "Укладання ламінату",
     unit: "m2",
     price: 290,
-    defaultQuantity: 25,
-    defaultChecked: true,
+    defaultQuantity: 0,
+    defaultChecked: false,
   },
   {
     id: "vinyl",
@@ -22,8 +22,8 @@ export const CALCULATOR_SERVICES: CalculatorService[] = [
     name: "Встановлення плінтуса МДФ",
     unit: "m",
     price: 270,
-    defaultQuantity: 45,
-    defaultChecked: true,
+    defaultQuantity: 0,
+    defaultChecked: false,
   },
   {
     id: "baseboard-aluminium",
@@ -46,16 +46,16 @@ export const CALCULATOR_SERVICES: CalculatorService[] = [
     name: "Підготовка основи (грунтування)",
     unit: "m2",
     price: 30,
-    defaultQuantity: 25,
-    defaultChecked: true,
+    defaultQuantity: 0,
+    defaultChecked: false,
   },
   {
     id: "removal",
     name: "Демонтаж старого покриття",
     unit: "m2",
     price: 40,
-    defaultQuantity: 25,
-    defaultChecked: true,
+    defaultQuantity: 0,
+    defaultChecked: false,
   },
 ];
 

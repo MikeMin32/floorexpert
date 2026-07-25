@@ -42,7 +42,9 @@ export function buildLeadCalculations(rows: CalculatorRowInput[]): LeadCalculati
     });
 
     totalCost += subtotal;
-    if (row.unit === "m2") totalArea += row.quantity;
+    // Area services (laying, prep, demolition) share the same floor space —
+    // report the largest selected m² quantity, not the sum.
+    if (row.unit === "m2") totalArea = Math.max(totalArea, row.quantity);
     if (row.unit === "m") totalLinearLength += row.quantity;
   }
 

@@ -10,7 +10,7 @@ export function Features() {
         <SectionHeading
           eyebrow="Чому обирають нас"
           title="Переваги співпраці з Floor Expert"
-          description="Понад десять років ми допомагаємо перетворювати підлогу на завершений елемент інтер'єру."
+          description="Понад п'ять років ми допомагаємо перетворювати підлогу на завершений елемент інтер'єру."
         />
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
