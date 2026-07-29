@@ -34,14 +34,17 @@ function clamp(value: number, max: number): number {
 
 export function useCalculator() {
   const [rows, setRows] = useState<CalculatorRow[]>(createInitialRows);
+  const [lastInteractionAt, setLastInteractionAt] = useState<number | null>(null);
 
   const toggleChecked = useCallback((id: string) => {
+    setLastInteractionAt(Date.now());
     setRows((current) =>
       current.map((row) => (row.id === id ? { ...row, checked: !row.checked } : row)),
     );
   }, []);
 
   const updateQuantity = useCallback((id: string, value: number) => {
+    setLastInteractionAt(Date.now());
     const quantity = clamp(value, MAX_QUANTITY);
     setRows((current) =>
       current.map((row) => {
@@ -72,6 +75,8 @@ export function useCalculator() {
     totals,
     toggleChecked,
     updateQuantity,
+    /** Timestamp of the latest change, or null while the calculator is untouched. */
+    lastInteractionAt,
   };
 }
 

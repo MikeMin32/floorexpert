@@ -4,6 +4,7 @@ import { useId, useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { useCalculatorContext } from "@/context/CalculatorContext";
+import { useDiscountContext } from "@/context/DiscountContext";
 import { hasAttachableCalculations } from "@/lib/calculator";
 import { isValidPhone } from "@/lib/validation/lead";
 import type { ContactApiResponse, LeadFormPayload } from "@/types/lead";
@@ -17,6 +18,7 @@ const inputClassName =
 
 export function ContactForm() {
   const { calculations: liveCalculations } = useCalculatorContext();
+  const { discountActivated, markLeadSubmitted } = useDiscountContext();
   const nameId = useId();
   const phoneId = useId();
   const includeId = useId();
@@ -76,6 +78,7 @@ export function ContactForm() {
       name: name.trim(),
       phone: phone.trim(),
       ...(includeCalculations ? { calculations: liveCalculations } : {}),
+      ...(discountActivated ? { discountActivated: true } : {}),
       source: "website",
       createdAt: new Date().toISOString(),
     };
@@ -112,6 +115,7 @@ export function ContactForm() {
       setFormError(null);
       setCalcError(null);
       setStatus("success");
+      markLeadSubmitted();
     } catch {
       setFormError("Немає з'єднання з сервером. Спробуйте ще раз.");
       setStatus("error");
@@ -125,6 +129,16 @@ export function ContactForm() {
 
   return (
     <div className="relative w-full overflow-hidden">
+    {discountActivated && !isSuccess ? (
+      <p
+        className="mb-3 rounded-xl border border-bronze/30 bg-bronze/10 px-4 py-3 text-xs leading-relaxed text-ink-soft/85"
+        role="status"
+        aria-live="polite"
+      >
+        Знижку 10% активовано. Залиште контактні дані, щоб зафіксувати пропозицію.
+      </p>
+    ) : null}
+
     <form
       onSubmit={handleSubmit}
       className={`flex w-full flex-col gap-3${isSuccess ? " invisible" : ""}`}

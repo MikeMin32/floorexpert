@@ -5,7 +5,7 @@ export const CALCULATOR_SERVICES: CalculatorService[] = [
     id: "laminate",
     name: "Укладання ламінату",
     unit: "m2",
-    price: 290,
+    price: 289,
     defaultQuantity: 0,
     defaultChecked: false,
   },
@@ -13,7 +13,15 @@ export const CALCULATOR_SERVICES: CalculatorService[] = [
     id: "vinyl",
     name: "Укладання кварцвінілу (SPC)",
     unit: "m2",
-    price: 340,
+    price: 339,
+    defaultQuantity: 0,
+    defaultChecked: false,
+  },
+  {
+    id: "vinyl-glue",
+    name: "Укладання клейового кварцвінілу",
+    unit: "m2",
+    price: 389,
     defaultQuantity: 0,
     defaultChecked: false,
   },
@@ -63,16 +71,16 @@ export const SERVICE_CARDS: ServiceCard[] = [
   {
     icon: "layers",
     title: "Укладання ламінату",
-    priceLabel: "від 290 грн/м²",
+    priceLabel: "від 289 грн/м²",
     description:
       "Швидкий та точний монтаж ламінату будь-якого класу з підбором оптимальної схеми розкладки.",
   },
   {
     icon: "grid",
     title: "Укладання кварцвінілу",
-    priceLabel: "від 340 грн/м²",
+    priceLabel: "від 339 грн/м²",
     description:
-      "Вологостійке SPC-покриття, яке ідеально пасує для кухні, коридору та санвузлів.",
+      "Два види кварцвінілу — замковий SPC та клейовий. Вологостійке покриття для кухні, коридору та санвузлів.",
   },
   {
     icon: "ruler",

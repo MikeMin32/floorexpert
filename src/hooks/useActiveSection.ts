@@ -1,34 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-
-function readHeaderOffset(): number {
-  const raw = getComputedStyle(document.documentElement)
-    .getPropertyValue("--header-height")
-    .trim();
-  const parsed = Number.parseInt(raw, 10);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : 78;
-}
-
-/** Extra distance (px) into the section so the title lands under the header. */
-const SECTION_SCROLL_INSET: Record<string, number> = {
-  works: 88,
-};
-
-function getTargetScrollY(sectionId: string): number {
-  const el = document.getElementById(sectionId);
-  if (!el) return window.scrollY;
-
-  const headerOffset = readHeaderOffset();
-  const inset = SECTION_SCROLL_INSET[sectionId] ?? 0;
-  const documentTop = el.getBoundingClientRect().top + window.scrollY + inset;
-  const maxScroll = Math.max(
-    0,
-    document.documentElement.scrollHeight - window.innerHeight,
-  );
-
-  return Math.min(Math.max(0, documentTop - headerOffset), maxScroll);
-}
+import { getSectionScrollTarget, readHeaderOffset } from "@/lib/scroll";
 
 function isNavigationKey(event: KeyboardEvent): boolean {
   const keys = new Set([
@@ -231,7 +204,7 @@ export function useActiveSection(sectionIds: readonly string[]) {
           return;
         }
 
-        const targetY = getTargetScrollY(sectionId);
+        const targetY = getSectionScrollTarget(sectionId);
 
         if (Math.abs(window.scrollY - targetY) <= 2) {
           endProgrammaticScroll();

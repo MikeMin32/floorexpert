@@ -76,6 +76,10 @@ export function formatLeadMessage(payload: LeadFormPayload): string {
     escapeMarkdown(sanitizeUserText(payload.phone)),
   ];
 
+  if (payload.discountActivated) {
+    lines.push("", "Знижка: 10% активована");
+  }
+
   if (payload.calculations && payload.calculations.items.length > 0) {
     const { items, totalArea, totalLinearLength, totalCost } = payload.calculations;
 

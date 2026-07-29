@@ -18,6 +18,8 @@ export type LeadFormPayload = {
   name: string;
   phone: string;
   calculations?: LeadCalculations;
+  /** Set when the visitor claimed the 10% discount in the popup. */
+  discountActivated?: boolean;
   source: "website";
   createdAt: string;
 };

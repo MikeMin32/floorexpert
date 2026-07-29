@@ -8,7 +8,9 @@ import { ProjectsGallery } from "@/components/sections/ProjectsGallery";
 import { WorkProcess } from "@/components/sections/WorkProcess";
 import { Features } from "@/components/sections/Features";
 import { ContactSection } from "@/components/sections/ContactSection";
+import { DiscountPopup } from "@/components/discount/DiscountPopup";
 import { CalculatorProvider } from "@/context/CalculatorContext";
+import { DiscountProvider } from "@/context/DiscountContext";
 
 export default function Home() {
   return (
@@ -18,12 +20,15 @@ export default function Home() {
         <Hero />
         <Services />
         <CalculatorProvider>
-          <CostCalculator />
-          <Materials />
-          <ProjectsGallery />
-          <WorkProcess />
-          <Features />
-          <ContactSection />
+          <DiscountProvider>
+            <CostCalculator />
+            <Materials />
+            <ProjectsGallery />
+            <WorkProcess />
+            <Features />
+            <ContactSection />
+            <DiscountPopup />
+          </DiscountProvider>
         </CalculatorProvider>
       </main>
       <Footer />

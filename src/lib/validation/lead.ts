@@ -125,6 +125,7 @@ export function validateLeadPayload(body: unknown): LeadValidationResult {
     };
   }
 
+  const discountActivated = body.discountActivated === true;
   const source = body.source === "website" ? "website" : "website";
   const createdAt =
     typeof body.createdAt === "string" && body.createdAt.trim()
@@ -137,6 +138,7 @@ export function validateLeadPayload(body: unknown): LeadValidationResult {
       name: name!,
       phone: phone!,
       ...(calculations ? { calculations } : {}),
+      ...(discountActivated ? { discountActivated } : {}),
       source,
       createdAt,
     },

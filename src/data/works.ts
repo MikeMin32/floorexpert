@@ -40,4 +40,12 @@ export const WORK_IMAGES: WorkImage[] = [
     src: "/images/works/8.JPG",
     alt: "Готова підлога — реалізований проєкт Floor Expert",
   },
+  {
+    src: "/images/works/9.jpg",
+    alt: "Готова підлога — реалізований проєкт Floor Expert",
+  },
+  {
+    src: "/images/works/10.jpg",
+    alt: "Готова підлога — реалізований проєкт Floor Expert",
+  },
 ];
