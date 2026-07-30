@@ -135,6 +135,8 @@ sudo /opt/floorexpert/deploy/status.sh
 | App | Docker Compose service `app`, container `floorexpert` |
 | Bind | `127.0.0.1:3000:3000` only |
 | Secrets | `/opt/floorexpert/.env` (mode `600`) |
+| Lead store | Bind mount `./data` → `/app/data/leads.json` (phone / IP uniqueness) |
+| Discount visitors | `/app/data/discount-visitors.json` (3 closes / discounted lead per IP) |
 
 ## Optional install overrides
 

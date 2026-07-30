@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { getClientIp } from "@/lib/leads/clientIp";
+import { hasDiscountLeadFromIp, recordLead } from "@/lib/leads/store";
 import { formatLeadMessage } from "@/lib/telegram/formatLeadMessage";
 import {
   sendLeadToTelegram,
@@ -6,7 +8,7 @@ import {
   TelegramDeliveryError,
 } from "@/lib/telegram/sendLeadToTelegram";
 import { validateLeadPayload } from "@/lib/validation/lead";
-import type { ContactApiResponse } from "@/types/lead";
+import type { ContactApiResponse, LeadFormPayload, LeadVisitorMeta } from "@/types/lead";
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -31,8 +33,35 @@ export async function POST(request: Request) {
     return NextResponse.json(response, { status: 400 });
   }
 
-  const payload = validation.data;
-  const message = formatLeadMessage(payload);
+  const ip = getClientIp(request);
+  let payload: LeadFormPayload = validation.data;
+
+  // One discount lead per IP — ignore a repeated claim from the same visitor.
+  if (payload.discountActivated && ip) {
+    try {
+      if (await hasDiscountLeadFromIp(ip)) {
+        payload = {
+          name: payload.name,
+          phone: payload.phone,
+          source: payload.source,
+          createdAt: payload.createdAt,
+          ...(payload.calculations ? { calculations: payload.calculations } : {}),
+        };
+      }
+    } catch (error) {
+      console.error("[contact] Failed to check prior discount lead:", error);
+    }
+  }
+
+  let visitor: LeadVisitorMeta | undefined;
+  try {
+    const recorded = await recordLead({ payload, ip });
+    visitor = { isReturning: recorded.isReturning };
+  } catch (error) {
+    console.error("[contact] Failed to persist lead:", error);
+  }
+
+  const message = formatLeadMessage(payload, visitor);
 
   try {
     await sendLeadToTelegram(message);

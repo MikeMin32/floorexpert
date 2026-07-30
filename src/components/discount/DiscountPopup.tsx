@@ -42,7 +42,7 @@ function useIsClient() {
 
 export function DiscountPopup() {
   const { lastInteractionAt } = useCalculatorContext();
-  const { discountActivated, activateDiscount, leadSubmitted } = useDiscountContext();
+  const { activateDiscount, popupEligible, recordPopupDismiss } = useDiscountContext();
 
   const isClient = useIsClient();
   const shouldReduceMotion = useReducedMotion();
@@ -53,9 +53,14 @@ export function DiscountPopup() {
 
   const { isOpen, close } = useDiscountPopup({
     calculatorTouchedAt: lastInteractionAt,
-    disabled: discountActivated || leadSubmitted,
+    disabled: !popupEligible,
     formSectionId: CONTACT_SECTION_ID,
   });
+
+  const dismiss = useCallback(() => {
+    close();
+    void recordPopupDismiss();
+  }, [close, recordPopupDismiss]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -71,7 +76,7 @@ export function DiscountPopup() {
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        close();
+        dismiss();
         return;
       }
       if (event.key !== "Tab") return;
@@ -111,7 +116,7 @@ export function DiscountPopup() {
       document.body.style.overflow = previousOverflow;
       previouslyFocused?.focus({ preventScroll: true });
     };
-  }, [close, isOpen]);
+  }, [dismiss, isOpen]);
 
   useEffect(() => () => window.clearTimeout(scrollTimerRef.current), []);
 
@@ -141,7 +146,7 @@ export function DiscountPopup() {
           <div
             aria-hidden="true"
             className="absolute inset-0 bg-ink/80 backdrop-blur-[4px]"
-            onClick={close}
+            onClick={dismiss}
           />
 
           <motion.div
@@ -173,7 +178,7 @@ export function DiscountPopup() {
 
             <button
               type="button"
-              onClick={close}
+              onClick={dismiss}
               aria-label="Закрити вікно зі знижкою"
               className="absolute right-2.5 top-2.5 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-ink/45 text-cream/80 transition-colors duration-200 hover:bg-ink/70 hover:text-cream focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-light sm:right-3.5 sm:top-3.5"
             >
@@ -211,7 +216,7 @@ export function DiscountPopup() {
 
               <button
                 type="button"
-                onClick={close}
+                onClick={dismiss}
                 className="rounded-sm px-2 py-1 text-xs font-medium text-cream/55 underline-offset-4 transition-colors duration-200 hover:text-cream hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-light"
               >
                 Закрити

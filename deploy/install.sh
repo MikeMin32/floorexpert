@@ -225,6 +225,10 @@ wait_for_app_healthy() {
 
 start_application() {
   log "Building and starting ${APP_NAME} with Docker Compose"
+  mkdir -p "${APP_DIR}/data"
+  chown -R 1001:1001 "${APP_DIR}/data"
+  chmod 750 "${APP_DIR}/data"
+  log "Lead store directory ready at ${APP_DIR}/data"
   (
     cd "${APP_DIR}"
     docker compose up -d --build --remove-orphans

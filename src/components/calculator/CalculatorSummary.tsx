@@ -1,13 +1,22 @@
+"use client";
+
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { useCalculatorContext } from "@/context/CalculatorContext";
+import { hasAttachableCalculations } from "@/lib/calculator";
 import { formatCurrency, formatNumber } from "@/lib/format";
-import type { CalculatorTotals } from "@/hooks/useCalculator";
+import { scrollToSection } from "@/lib/scroll";
 
-interface CalculatorSummaryProps {
-  totals: CalculatorTotals;
-}
+export function CalculatorSummary() {
+  const { totals, calculations, requestAttachCalculations } = useCalculatorContext();
 
-export function CalculatorSummary({ totals }: CalculatorSummaryProps) {
+  function handleLeadClick() {
+    if (hasAttachableCalculations(calculations) && totals.totalCost > 0) {
+      requestAttachCalculations();
+    }
+    scrollToSection("contact");
+  }
+
   return (
     <div className="flex flex-col gap-8 rounded-2xl bg-bronze p-8 text-ink lg:sticky lg:top-28">
       <div>
@@ -36,7 +45,7 @@ export function CalculatorSummary({ totals }: CalculatorSummaryProps) {
         </div>
       </dl>
 
-      <Button href="#contact" variant="primary" className="w-full">
+      <Button type="button" variant="primary" className="w-full" onClick={handleLeadClick}>
         Залишити заявку
         <Icon name="arrowRight" className="h-4 w-4" />
       </Button>

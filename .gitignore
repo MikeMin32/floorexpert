@@ -47,6 +47,9 @@ deploy/*.secret
 # vercel
 .vercel
 
+# persisted lead store (local / Docker bind mount)
+/data/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

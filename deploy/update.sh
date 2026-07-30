@@ -92,10 +92,19 @@ wait_for_app_healthy() {
 }
 
 compose_up() {
+  ensure_leads_data_dir
   (
     cd "${APP_DIR}"
     docker compose up -d --build --remove-orphans
   )
+}
+
+ensure_leads_data_dir() {
+  # Bind-mounted JSON store; uid 1001 matches the Dockerfile nextjs user.
+  mkdir -p "${APP_DIR}/data"
+  chown -R 1001:1001 "${APP_DIR}/data"
+  chmod 750 "${APP_DIR}/data"
+  log "Lead store directory ready at ${APP_DIR}/data"
 }
 
 rollback_to_commit() {

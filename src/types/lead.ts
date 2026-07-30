@@ -24,6 +24,11 @@ export type LeadFormPayload = {
   createdAt: string;
 };
 
+/** Aggregated uniqueness for Telegram: returning if phone OR IP was seen before. */
+export type LeadVisitorMeta = {
+  isReturning: boolean;
+};
+
 export type ContactApiSuccess = {
   ok: true;
   message: string;

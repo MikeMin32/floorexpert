@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { ContactIntroCopy } from "@/components/sections/ContactIntroCopy";
 import { CONTACT_INFO } from "@/data/company";
 
 export function ContactSection() {
@@ -29,9 +30,7 @@ export function ContactSection() {
               <h2 className="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
                 Зв&apos;яжіться з нами
               </h2>
-              <p className="max-w-xs text-sm leading-relaxed text-ink-soft/65">
-                Залиште свої дані, і ми передзвонимо вам найближчим часом
-              </p>
+              <ContactIntroCopy />
             </div>
 
             <div className="flex items-center px-6 sm:px-8 lg:px-0 lg:py-10">

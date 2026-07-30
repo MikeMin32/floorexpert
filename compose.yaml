@@ -9,6 +9,12 @@ services:
       - "127.0.0.1:3000:3000"
     env_file:
       - .env
+    volumes:
+      # Persists lead history across rebuilds (phone / IP uniqueness for Telegram).
+      - ./data:/app/data
+    environment:
+      LEADS_STORE_PATH: /app/data/leads.json
+      DISCOUNT_STORE_PATH: /app/data/discount-visitors.json
     security_opt:
       - no-new-privileges:true
     logging:

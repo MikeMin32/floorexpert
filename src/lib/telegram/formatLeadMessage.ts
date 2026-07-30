@@ -1,4 +1,4 @@
-import type { LeadFormPayload } from "@/types/lead";
+import type { LeadFormPayload, LeadVisitorMeta } from "@/types/lead";
 
 /**
  * Server-side helper that turns a lead payload into a Telegram-ready Markdown message.
@@ -67,7 +67,14 @@ function formatServiceBlock(item: {
   ].join("\n");
 }
 
-export function formatLeadMessage(payload: LeadFormPayload): string {
+function formatLeadNovelty(visitor: LeadVisitorMeta): string {
+  return visitor.isReturning ? "Повторний лід" : "Новий лід";
+}
+
+export function formatLeadMessage(
+  payload: LeadFormPayload,
+  visitor?: LeadVisitorMeta,
+): string {
   const now = new Date();
   const lines: string[] = [
     "🏠 Нова заявка - Floor Expert",
@@ -75,6 +82,10 @@ export function formatLeadMessage(payload: LeadFormPayload): string {
     escapeMarkdown(sanitizeUserText(payload.name)),
     escapeMarkdown(sanitizeUserText(payload.phone)),
   ];
+
+  if (visitor) {
+    lines.push("", formatLeadNovelty(visitor));
+  }
 
   if (payload.discountActivated) {
     lines.push("", "Знижка: 10% активована");

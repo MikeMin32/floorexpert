@@ -9,7 +9,7 @@ import { useCalculatorContext } from "@/context/CalculatorContext";
 const TABLE_HEADERS = ["", "Послуга", "Од. вим.", "Кількість", "Ціна", "Сума"];
 
 export function CostCalculator() {
-  const { rows, totals, toggleChecked, updateQuantity } = useCalculatorContext();
+  const { rows, toggleChecked, updateQuantity } = useCalculatorContext();
 
   return (
     <section id="calculator" className="bg-white pb-20 sm:pb-28">
@@ -51,7 +51,7 @@ export function CostCalculator() {
             </div>
           </div>
 
-          <CalculatorSummary totals={totals} />
+          <CalculatorSummary />
         </div>
       </Container>
     </section>

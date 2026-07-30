@@ -35,6 +35,8 @@ function clamp(value: number, max: number): number {
 export function useCalculator() {
   const [rows, setRows] = useState<CalculatorRow[]>(createInitialRows);
   const [lastInteractionAt, setLastInteractionAt] = useState<number | null>(null);
+  /** Incremented by “Залишити заявку” so the contact form can auto-check attach. */
+  const [attachCalculationsToken, setAttachCalculationsToken] = useState(0);
 
   const toggleChecked = useCallback((id: string) => {
     setLastInteractionAt(Date.now());
@@ -59,6 +61,10 @@ export function useCalculator() {
     );
   }, []);
 
+  const requestAttachCalculations = useCallback(() => {
+    setAttachCalculationsToken((current) => current + 1);
+  }, []);
+
   const calculations = useMemo<LeadCalculations>(
     () => buildLeadCalculations(rows),
     [rows],
@@ -77,6 +83,8 @@ export function useCalculator() {
     updateQuantity,
     /** Timestamp of the latest change, or null while the calculator is untouched. */
     lastInteractionAt,
+    attachCalculationsToken,
+    requestAttachCalculations,
   };
 }
 
