@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 
 const GOOGLE_ADS_ID = "AW-18361700035";
+const GOOGLE_ADS_PAGE_VIEW_CONVERSION = `${GOOGLE_ADS_ID}/DchjCLmTvtkcEMOdxbNE`;
 
 const inter = Inter({
   variable: "--font-inter",
@@ -51,6 +52,11 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${GOOGLE_ADS_ID}');
+            gtag('event', 'conversion', {
+              send_to: '${GOOGLE_ADS_PAGE_VIEW_CONVERSION}',
+              value: 1.0,
+              currency: 'UAH'
+            });
           `}
         </Script>
       </body>
