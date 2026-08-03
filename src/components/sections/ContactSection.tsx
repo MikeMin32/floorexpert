@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { PhoneLink } from "@/components/analytics/PhoneLink";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { ContactForm } from "@/components/sections/ContactForm";
@@ -38,13 +39,10 @@ export function ContactSection() {
             </div>
 
             <div className="flex flex-col justify-center gap-4 border-t border-ink/8 px-6 pt-6 pb-8 sm:px-8 lg:border-t-0 lg:border-l lg:px-8 lg:py-10 lg:pr-10">
-              <a
-                href={CONTACT_INFO.phoneHref}
-                className="flex items-center gap-3 text-sm font-semibold text-ink transition-colors hover:text-bronze-dark"
-              >
+              <PhoneLink className="flex items-center gap-3 text-sm font-semibold text-ink transition-colors hover:text-bronze-dark">
                 <Icon name="phone" className="h-5 w-5 shrink-0 text-bronze-dark" />
                 {CONTACT_INFO.phone}
-              </a>
+              </PhoneLink>
               <div className="flex items-center gap-3 text-sm font-medium text-ink">
                 <Icon name="pin" className="h-5 w-5 shrink-0 text-bronze-dark" />
                 {CONTACT_INFO.address}

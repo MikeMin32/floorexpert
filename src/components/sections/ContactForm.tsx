@@ -5,7 +5,12 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { useCalculatorContext } from "@/context/CalculatorContext";
 import { useDiscountContext } from "@/context/DiscountContext";
+import {
+  trackAdsConversion,
+  trackContactFormSubmitSuccess,
+} from "@/lib/analytics";
 import { hasAttachableCalculations } from "@/lib/calculator";
+import { GOOGLE_ADS_LEAD_CONVERSION_ID } from "@/lib/site-config";
 import { isValidPhone } from "@/lib/validation/lead";
 import type { ContactApiResponse, LeadFormPayload } from "@/types/lead";
 
@@ -39,6 +44,8 @@ export function ContactForm() {
   const [formError, setFormError] = useState<string | null>(null);
   const [calcError, setCalcError] = useState<string | null>(null);
   const submittingRef = useRef(false);
+  /** Guards against Strict Mode / re-render double-firing analytics. */
+  const successAnalyticsFiredRef = useRef(false);
 
   // Adjust state during render when the calculator CTA asks to attach (React-recommended pattern).
   if (attachCalculationsToken > handledAttachToken) {
@@ -129,6 +136,15 @@ export function ContactForm() {
       setCalcError(null);
       setStatus("success");
       markLeadSubmitted();
+
+      if (!successAnalyticsFiredRef.current) {
+        successAnalyticsFiredRef.current = true;
+        trackContactFormSubmitSuccess();
+        trackAdsConversion(GOOGLE_ADS_LEAD_CONVERSION_ID, {
+          value: 1.0,
+          currency: "UAH",
+        });
+      }
     } catch {
       setFormError("Немає з'єднання з сервером. Спробуйте ще раз.");
       setStatus("error");
@@ -271,7 +287,10 @@ export function ContactForm() {
             type="button"
             variant="outline"
             className="mt-1 rounded-xl"
-            onClick={() => setStatus("idle")}
+            onClick={() => {
+              successAnalyticsFiredRef.current = false;
+              setStatus("idle");
+            }}
           >
             Надіслати ще одну заявку
           </Button>

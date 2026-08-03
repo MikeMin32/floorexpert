@@ -54,11 +54,11 @@ export function Hero() {
             {COMPANY_TAGLINE}
           </span>
           <h1 className="text-4xl leading-[1.12] font-bold tracking-[-0.02em] text-ink sm:text-5xl lg:text-[49px]">
-            Професійне встановлення
+            Укладання ламінату
             <br />
-            ламінату, кварцвінілу
+            та кварцвінілу
             <br />
-            та плінтуса
+            в Києві
           </h1>
           <p className="mt-[22px] max-w-md text-[16px] leading-[1.5] text-ink-soft/70 lg:mt-[28px]">
             Якісно. Надійно. Вчасно.

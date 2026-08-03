@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import Script from "next/script";
+import {
+  absoluteUrl,
+  GOOGLE_ADS_ID,
+  OG_IMAGE_PATH,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site-config";
 import "./globals.css";
-
-const GOOGLE_ADS_ID = "AW-18361700035";
-const GOOGLE_ADS_PAGE_VIEW_CONVERSION = `${GOOGLE_ADS_ID}/DchjCLmTvtkcEMOdxbNE`;
 
 const inter = Inter({
   variable: "--font-inter",
@@ -16,17 +20,37 @@ const playfairDisplay = Playfair_Display({
   subsets: ["latin", "cyrillic"],
 });
 
+const title = "Укладання ламінату та кварцвінілу в Києві | Floor Expert";
+const description =
+  "Професійне укладання ламінату, кварцвінілу (SPC) і плінтусів у Києві та області. Онлайн-калькулятор вартості та швидка заявка.";
+
 export const metadata: Metadata = {
-  title: "Floor Expert — Укладання ламінату, кварцвінілу та плінтуса",
-  description:
-    "Floor Expert — професійне встановлення ламінату, кварцвінілу (SPC) та плінтуса в Києві та області. Досвідчені майстри, якісні матеріали, прозора вартість.",
-  keywords: [
-    "укладання ламінату",
-    "укладання кварцвінілу",
-    "встановлення плінтуса",
-    "Floor Expert",
-    "укладка підлоги Київ",
-  ],
+  metadataBase: new URL(SITE_URL),
+  title,
+  description,
+  alternates: {
+    canonical: absoluteUrl("/"),
+  },
+  openGraph: {
+    type: "website",
+    locale: "uk_UA",
+    url: absoluteUrl("/"),
+    siteName: SITE_NAME,
+    title,
+    description,
+    images: [
+      {
+        url: OG_IMAGE_PATH,
+        alt: "Інтер'єр з укладеним ламінатом та плінтусом",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [OG_IMAGE_PATH],
+  },
 };
 
 export default function RootLayout({
@@ -52,11 +76,6 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${GOOGLE_ADS_ID}');
-            gtag('event', 'conversion', {
-              send_to: '${GOOGLE_ADS_PAGE_VIEW_CONVERSION}',
-              value: 1.0,
-              currency: 'UAH'
-            });
           `}
         </Script>
       </body>

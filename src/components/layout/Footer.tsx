@@ -1,3 +1,5 @@
+import { PhoneLink } from "@/components/analytics/PhoneLink";
+import { TelegramLink } from "@/components/analytics/TelegramLink";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { TransparentLogo } from "@/components/ui/TransparentLogo";
@@ -26,18 +28,31 @@ export function Footer() {
             області.
           </p>
           <div className="flex items-center gap-3">
-            {SOCIAL_LINKS.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={link.label}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-bronze text-ink transition-colors hover:bg-bronze-light"
-              >
-                <Icon name={link.icon} className="h-4 w-4" />
-              </a>
-            ))}
+            {SOCIAL_LINKS.map((link) =>
+              link.icon === "telegram" ? (
+                <TelegramLink
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-bronze text-ink transition-colors hover:bg-bronze-light"
+                >
+                  <Icon name={link.icon} className="h-4 w-4" />
+                </TelegramLink>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-bronze text-ink transition-colors hover:bg-bronze-light"
+                >
+                  <Icon name={link.icon} className="h-4 w-4" />
+                </a>
+              ),
+            )}
           </div>
         </div>
 
@@ -77,13 +92,10 @@ export function Footer() {
           <h3 className="text-sm font-semibold text-cream">Контакти</h3>
           <ul className="mt-4 flex flex-col gap-4 text-sm text-cream-dark/70">
             <li>
-              <a
-                href={CONTACT_INFO.phoneHref}
-                className="flex items-center gap-3 transition-colors hover:text-cream"
-              >
+              <PhoneLink className="flex items-center gap-3 transition-colors hover:text-cream">
                 <Icon name="phone" className="h-4 w-4 shrink-0 text-bronze-light" />
                 {CONTACT_INFO.phone}
-              </a>
+              </PhoneLink>
             </li>
             <li className="flex items-center gap-3">
               <Icon name="pin" className="h-4 w-4 shrink-0 text-bronze-light" />

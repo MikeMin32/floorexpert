@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState, type MouseEvent } from "react";
+import { PhoneLink } from "@/components/analytics/PhoneLink";
 import { Icon } from "@/components/ui/Icon";
 import { Container } from "@/components/ui/Container";
 import { TransparentLogo } from "@/components/ui/TransparentLogo";
@@ -161,13 +162,10 @@ export function Header() {
         </nav>
 
         <div className="hidden shrink-0 items-center gap-5 lg:flex">
-          <a
-            href={CONTACT_INFO.phoneHref}
-            className="flex items-center gap-2 text-sm font-semibold text-cream transition-colors hover:text-bronze-light"
-          >
+          <PhoneLink className="flex items-center gap-2 text-sm font-semibold text-cream transition-colors hover:text-bronze-light">
             <Icon name="phone" className="h-4 w-4 text-bronze-light" />
             {CONTACT_INFO.phone}
-          </a>
+          </PhoneLink>
           <a
             href="#contact"
             onClick={(event) => handleNavClick(event, "#contact")}
@@ -228,13 +226,10 @@ export function Header() {
                 }}
               />
             </nav>
-            <a
-              href={CONTACT_INFO.phoneHref}
-              className="mt-2 flex items-center gap-2 px-3 text-base font-semibold text-cream"
-            >
+            <PhoneLink className="mt-2 flex items-center gap-2 px-3 text-base font-semibold text-cream">
               <Icon name="phone" className="h-4 w-4 text-bronze-light" />
               {CONTACT_INFO.phone}
-            </a>
+            </PhoneLink>
             <a
               href="#contact"
               onClick={(event) => handleNavClick(event, "#contact")}
